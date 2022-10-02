@@ -4,30 +4,30 @@ import { View, Text, Platform, FlatList, StyleSheet, Button, Alert } from 'react
 import firebase from 'firebase/compat';
 import {useEffect, useState} from "react";
 // routing/navagation
-const TenantDetails = ({route,navigation}) => {
-    const [tenant,setTenant] = useState({});
+const FeedDetails = ({route,navigation}) => {
+    const [feed,setFeed] = useState({});
 //callback
     useEffect(() => {
         /*Henter forbruger værdier og indsætter*/
-        setTenant(route.params.tenant[1]);
+        setFeed(route.params.feed[1]);
 
         /*clean screen efter brug*/
         return () => {
-            setTenant({})
+            setFeed({})
         }
     });
 // opdater/rediger
     const makeEdit = () => {
-        //Navigerer til EditTenant skærmen og sender tenant videre
-        const tenant = route.params.tenant
-        navigation.navigate('Edit Tenant', { tenant });
+        //Navigerer til EditFeed skærmen og sender feed videre
+        const feed = route.params.feed
+        navigation.navigate('Edit Feed', { feed });
     };
 
     // Klassisk er du sikker på, at du vil gennemføre handlingen?
     const verifyDelete = () => {
         /*platform iphone eller noget android halløj?*/
         if(Platform.OS ==='ios' || Platform.OS ==='android'){
-            Alert.alert('sure?', 'Delete the tenant?', [
+            Alert.alert('sure?', 'Delete the feed?', [
                 { text: 'Cancel', style: 'cancel' },
                 // this.handleDelete = eventHandler til onPress når button trykkes
                 { text: 'Delete', style: 'destructive', onPress: () => handleDelete() },
@@ -35,14 +35,14 @@ const TenantDetails = ({route,navigation}) => {
         }
     };
 
-    // Sletter Tenant
+    // Sletter Feed
     const  handleDelete = () => {
-        const id = route.params.tenant[0];
+        const id = route.params.feed[0];
         try {
             firebase
                 .database()
                 // Vi sætter  ID ind i referencen
-                .ref(`/Tenants/${id}`)
+                .ref(`/Feeds/${id}`)
                 // Og fjerner data derfra
                 .remove();
             // goBack når handlingen er udført eller overstået
@@ -53,7 +53,7 @@ const TenantDetails = ({route,navigation}) => {
     };
 
 // if statement til mangel eventuelt
-    if (!tenant) {
+    if (!feed) {
         return <Text>No data</Text>;
     }
 
@@ -63,12 +63,12 @@ const TenantDetails = ({route,navigation}) => {
             <Button title="Edit" onPress={ () => makeEdit()} />
             <Button title="Delete" onPress={() => verifyDelete()} />
             {
-                Object.entries(tenant).map((item,index)=>{
+                Object.entries(feed).map((item,index)=>{
                     return(
                         <View style={styles.row} key={index}>
-                            {/*Vores tenant keys navn*/}
+                            {/*Vores feed keys navn*/}
                             <Text style={styles.label}>{item[0]} </Text>
-                            {/*Vores tenant values navne */}
+                            {/*Vores feed values navne */}
                             <Text style={styles.value}>{item[1]}</Text>
                         </View>
                     )
@@ -78,7 +78,7 @@ const TenantDetails = ({route,navigation}) => {
     );
 }
 
-export default TenantDetails;
+export default FeedDetails;
 
 // css styling yo
 const styles = StyleSheet.create({

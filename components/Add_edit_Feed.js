@@ -15,73 +15,72 @@ import firebase from 'firebase/compat';
 import {useEffect, useState} from "react";
 
 // konstant for skemaet/klasse variationen til ny bruger
-const Add_edit_Tenant = ({navigation,route}) => {
+const Add_edit_Feed = ({navigation,route}) => {
 
     //user information
     const initialState = {
-        lastName: '',
-        address: '',
-        union: '',
-        userName: ''
+        Post: '',
+        subject: '',
+        info: ''
     }
 // start på ny bruger
-    const [newTenant,setNewTenant] = useState(initialState);
+    const [newFeed,setNewFeed] = useState(initialState);
 
     /*true når tenant skal redigeres*/
-    const isEditTenant = route.name === "Edit Tenant";
+    const isEditFeed = route.name === "Edit Feed";
 // callback
     useEffect(() => {
-        if(isEditTenant){
-            const tenant = route.params.tenant[1];
-            setNewTenant(tenant)
+        if(isEditFeed){
+            const feed = route.params.feed[1];
+            setNewFeed(feed)
         }
         /*Fjern data, når vi går væk fra screenen*/
         return () => {
-            setNewTenant(initialState)
+            setNewFeed(initialState)
         };
     }, []);
 //funktion for new user
     const changeTextInput = (name,event) => {
-        setNewTenant({...newTenant, [name]: event});
+        setNewFeed({...newFeed, [name]: event});
     }
 // gem ny bruger
     const handleSave = () => {
 
-        const { lastName, address, union, userName } = newTenant;
+        const { Post, subject, info} = newFeed;
 
         // requirements for ny bruger tegn.
-        if(lastName.length === 0 || address.length === 0 || union.length === 0  ){
+        if(Post.length === 0 || subject.length === 0 || info.length === 0  ){
             return Alert.alert('Empty field!');
         }
 // gemmes i firebase database.
-        if(isEditTenant){
-            const id = route.params.tenant[0];
+        if(isEditFeed){
+            const id = route.params.feed[0];
             try {
                 firebase
                     .database()
-                    .ref(`/Tenants/${id}`).update({ lastName, address, union, userName });
-                // Når tenant er opdateret = back 2 start. // update, så kun de felter der redigeres opdateres i databasen.
+                    .ref(`/Feeds/${id}`).update({ Post, subject, info });
+                // Når feed er opdateret = back 2 start. // update, så kun de felter der redigeres opdateres i databasen.
                 Alert.alert("Din profil er opdateret, vend tilbage til start");
-                const tenant = [id,newTenant]
-                navigation.navigate("Tenant Details",{tenant});
+                const feed = [id,newFeed]
+                navigation.navigate("Feed Details",{feed});
             } catch (error) {
                 console.log(`Error: ${error.message}`);
             }
 // else statement
         }else{
-        // requesten fra endpoint til databasen.
+            // requesten fra endpoint til databasen.
             try {
                 firebase
-                    .database().ref('/Tenants/').push({ lastName, address, union, userName });
+                    .database().ref('/Feeds/').push({ Post, subject, info });
                 Alert.alert(`Saved`);
-                setNewTenant(initialState)
+                setNewFeed(initialState)
             } catch (error) {
                 console.log(`Error: ${error.message}`);
             }// fanger fejl
         }
 
     };
-// button for tenant der skal addes eller redigeres med homescreen
+// button for feed der skal addes eller redigeres med homescreen
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView>
@@ -91,7 +90,7 @@ const Add_edit_Tenant = ({navigation,route}) => {
                             <View style={styles.row} key={index}>
                                 <Text style={styles.label}>{key}</Text>
                                 <TextInput
-                                    value={newTenant[key]}
+                                    value={newFeed[key]}
                                     onChangeText={(event) => changeTextInput(key,event)}
                                     style={styles.input}
                                 />
@@ -99,15 +98,15 @@ const Add_edit_Tenant = ({navigation,route}) => {
                         )
                     })
                 }
-                {/*Ny bruger vises "add tenant" eller changes are saved, hvis der redigeres*/}
-                <Button title={ isEditTenant ? "changes are saved" : "Add tenant"} onPress={() => handleSave()} />
+                {/*Ny bruger vises "add feed" eller changes are saved, hvis der redigeres*/}
+                <Button title={ isEditFeed ? "changes are saved" : "Add Feed"} onPress={() => handleSave()} />
             </ScrollView>
         </SafeAreaView>
     );
 }
 
 // eksportere ud af filen
-export default Add_edit_Tenant;
+export default Add_edit_Feed;
 
 // css yo
 const styles = StyleSheet.create({

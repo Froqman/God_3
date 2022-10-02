@@ -4,45 +4,45 @@ import firebase from 'firebase/compat';
 import {useEffect, useState} from "react";
 
 // navigation til oprettede brugere
-const TenantList = ({navigation}) => {
+const FeedList = ({navigation}) => {
 
-    const [tenants,setTenants] = useState()
+    const [feeds,setFeeds] = useState()
 //callback
     useEffect(() => {
-        if(!tenants) {
+        if(!feeds) {
             firebase
                 .database()
-                .ref('/Tenants')
+                .ref('/Feeds')
                 .on('value', snapshot => {
-                    setTenants(snapshot.val())
+                    setFeeds(snapshot.val())
                 });
         }
     },[]);
 
     // er brugeren ikke oprettet hvis nada
-    if (!tenants) {
+    if (!feeds) {
         return <Text>Loading...</Text>;
     }
 // handle funktion
-    const handleSelectTenant = id => {
+    const handleSelectFeed= id => {
         /* søger  direkte vores arrayet af brugere og finder user objektet som matcher*/
-        const tenant = Object.entries(tenants).find( tenant => tenant[0] === id /*id*/)
-        navigation.navigate('Tenant Details', { tenant });
+        const feed = Object.entries(feeds).find( feed => feed[0] === id /*id*/)
+        navigation.navigate('Feed Details', { feed });
     };
 
     // Flatlist vil have et  array. lLaves til et array [],så flatlist kan vises os listen.
-    const tenantArray = Object.values(tenants);
-    const tenantKeys = Object.keys(tenants);
+    const feedArray = Object.values(feeds);
+    const feedKeys = Object.keys(feeds);
 
     return (
         // react component
         <FlatList
-            data={tenantArray}
-            // Vi bruger tenantKeys så ID'et på den brugeren specifikt  og returnerer dette som key der bliver til ID på TenantListItem
-            keyExtractor={(item, index) => tenantKeys[index]}
+            data={feedArray}
+            // Vi bruger feedKeys så ID'et på den brugeren specifikt  og returnerer dette som key der bliver til ID på FeedListItem
+            keyExtractor={(item, index) => feedKeys[index]}
             renderItem={({ item, index }) => {
                 return(
-                    <TouchableOpacity style={styles.container} onPress={() => handleSelectTenant(tenantKeys[index])}>
+                    <TouchableOpacity style={styles.container} onPress={() => handleSelectFeed(feedKeys[index])}>
                         <Text>
                             {item.lastName} {item.address}
                         </Text>
@@ -53,7 +53,7 @@ const TenantList = ({navigation}) => {
     );
 }
 //eksportere til andre filer/mapper
-export default TenantList;
+export default FeedList;
 
 
 // styling
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
         padding: 6,
         height: 53,
         justifyContent:'center',
-        backgroundColor: 'green'
+        backgroundColor: 'red'
     },
     label: { fontWeight: 'bold' },
 });
