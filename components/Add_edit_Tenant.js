@@ -1,4 +1,5 @@
 import * as React from 'react';
+//ui
 import {
     View,
     Text,
@@ -9,12 +10,14 @@ import {
     ScrollView,
     SafeAreaView,
 } from 'react-native';
+// database
 import firebase from 'firebase/compat';
 import {useEffect, useState} from "react";
 
 // konstant for skemaet/klasse variationen til ny bruger
 const Add_edit_Tenant = ({navigation,route}) => {
 
+    //user information
     const initialState = {
         lastName: '',
         address: '',
@@ -26,7 +29,7 @@ const Add_edit_Tenant = ({navigation,route}) => {
 
     /*true når tenant skal redigeres*/
     const isEditTenant = route.name === "Edit Tenant";
-
+// callback
     useEffect(() => {
         if(isEditTenant){
             const tenant = route.params.tenant[1];
@@ -37,7 +40,7 @@ const Add_edit_Tenant = ({navigation,route}) => {
             setNewTenant(initialState)
         };
     }, []);
-
+//funktion for new user
     const changeTextInput = (name,event) => {
         setNewTenant({...newTenant, [name]: event});
     }
@@ -56,29 +59,25 @@ const Add_edit_Tenant = ({navigation,route}) => {
             try {
                 firebase
                     .database()
-                    .ref(`/Tenants/${id}`)
-                    // update, så kun de felter der redigeres opdateres i databasen.
-                    .update({ lastName, address, union, userName });
-                // Når tenant er opdateret = back 2 start.
+                    .ref(`/Tenants/${id}`).update({ lastName, address, union, userName });
+                // Når tenant er opdateret = back 2 start. // update, så kun de felter der redigeres opdateres i databasen.
                 Alert.alert("Din profil er opdateret, vend tilbage til start");
                 const tenant = [id,newTenant]
                 navigation.navigate("Tenant Details",{tenant});
             } catch (error) {
                 console.log(`Error: ${error.message}`);
             }
-
+// else statement
         }else{
         // requesten fra endpoint til databasen.
             try {
                 firebase
-                    .database()
-                    .ref('/Tenants/')
-                    .push({ lastName, address, union, userName });
+                    .database().ref('/Tenants/').push({ lastName, address, union, userName });
                 Alert.alert(`Saved`);
                 setNewTenant(initialState)
             } catch (error) {
                 console.log(`Error: ${error.message}`);
-            }
+            }// fanger fejl
         }
 
     };
@@ -86,7 +85,7 @@ const Add_edit_Tenant = ({navigation,route}) => {
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView>
-                {
+                { //array og callback
                     Object.keys(initialState).map((key,index) =>{
                         return(
                             <View style={styles.row} key={index}>

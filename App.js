@@ -15,15 +15,16 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 
 // start på app funktionalitet
 export default function App() {
-
+//react
   const Stack = createStackNavigator();
-
+//react
   const Tab = createBottomTabNavigator();
 
   // etablering af databasen i firebase der connectes til min bruger på firebase
   const firebaseConfig = {
     apiKey: "AIzaSyDLUZgjusd5CEbVGw4wzBGAsLeRdJZCy_A",
     authDomain: "god3-2bfc2.firebaseapp.com",
+      // databasen url - cloud
     databaseURL: "https://god3-2bfc2-default-rtdb.europe-west1.firebasedatabase.app",
     projectId: "god3-2bfc2",
     storageBucket: "god3-2bfc2.appspot.com",
@@ -39,6 +40,7 @@ export default function App() {
   // navigation med komponenterne
   const StackNavigation = () => {
     return(
+        // de 3 componenter
         <Stack.Navigator>
 
           <Stack.Screen name={'Tenant List'} component={TenantList}/>
@@ -49,7 +51,7 @@ export default function App() {
     )
   }
 
-  // funktionalitet
+  // funktionalitet - Ui
   return (
       <NavigationContainer>
         <Tab.Navigator>
@@ -62,6 +64,7 @@ export default function App() {
   );
 }
 
+// no needed
 /*const styles = StyleSheet.create({
   container: {
     flex: 1,

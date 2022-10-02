@@ -7,7 +7,7 @@ import {useEffect, useState} from "react";
 const TenantList = ({navigation}) => {
 
     const [tenants,setTenants] = useState()
-
+//callback
     useEffect(() => {
         if(!tenants) {
             firebase
@@ -23,7 +23,7 @@ const TenantList = ({navigation}) => {
     if (!tenants) {
         return <Text>Loading...</Text>;
     }
-// handle
+// handle funktion
     const handleSelectTenant = id => {
         /* søger  direkte vores arrayet af brugere og finder user objektet som matcher*/
         const tenant = Object.entries(tenants).find( tenant => tenant[0] === id /*id*/)
@@ -35,6 +35,7 @@ const TenantList = ({navigation}) => {
     const tenantKeys = Object.keys(tenants);
 
     return (
+        // react component
         <FlatList
             data={tenantArray}
             // Vi bruger tenantKeys så ID'et på den brugeren specifikt  og returnerer dette som key der bliver til ID på TenantListItem
@@ -65,7 +66,8 @@ const styles = StyleSheet.create({
         margin: 6,
         padding: 6,
         height: 53,
-        justifyContent:'center'
+        justifyContent:'center',
+        backgroundColor: 'green'
     },
     label: { fontWeight: 'bold' },
 });

@@ -1,11 +1,12 @@
+//importere relevant.
 import * as React from 'react';
 import { View, Text, Platform, FlatList, StyleSheet, Button, Alert } from 'react-native';
 import firebase from 'firebase/compat';
 import {useEffect, useState} from "react";
-
+// routing/navagation
 const TenantDetails = ({route,navigation}) => {
     const [tenant,setTenant] = useState({});
-
+//callback
     useEffect(() => {
         /*Henter forbruger værdier og indsætter*/
         setTenant(route.params.tenant[1]);
@@ -15,7 +16,7 @@ const TenantDetails = ({route,navigation}) => {
             setTenant({})
         }
     });
-
+// opdater/rediger
     const makeEdit = () => {
         //Navigerer til EditTenant skærmen og sender tenant videre
         const tenant = route.params.tenant
@@ -44,14 +45,14 @@ const TenantDetails = ({route,navigation}) => {
                 .ref(`/Tenants/${id}`)
                 // Og fjerner data derfra
                 .remove();
-            // goBack når handlingen er udført
+            // goBack når handlingen er udført eller overstået
             navigation.goBack();
         } catch (error) {
             Alert.alert(error.message);
         }
     };
 
-
+// if statement til mangel eventuelt
     if (!tenant) {
         return <Text>No data</Text>;
     }
