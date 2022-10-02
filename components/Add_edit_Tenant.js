@@ -25,7 +25,7 @@ const Add_edit_Tenant = ({navigation,route}) => {
     const [newTenant,setNewTenant] = useState(initialState);
 
     /*true når tenant skal redigeres*/
-    const isEditTenant = route.name === "Edit tenant";
+    const isEditTenant = route.name === "Edit Tenant";
 
     useEffect(() => {
         if(isEditTenant){
