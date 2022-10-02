@@ -1,3 +1,4 @@
+// importere relevante udvidelser
 import { StatusBar } from 'expo-status-bar';
 import React, {useEffect} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
@@ -12,12 +13,13 @@ import TenantDetails from "./components/TenantDetails";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 
-
+// start på app funktionalitet
 export default function App() {
 
   const Stack = createStackNavigator();
   const Tab = createBottomTabNavigator();
 
+  // etablering af databasen i firebase der connectes til min bruger på firebase
   const firebaseConfig = {
     apiKey: "AIzaSyDLUZgjusd5CEbVGw4wzBGAsLeRdJZCy_A",
     authDomain: "god3-2bfc2.firebaseapp.com",
@@ -28,13 +30,12 @@ export default function App() {
     appId: "1:899387675034:web:06fdccd8d91590dea6ea23"
   };
 
-  // Vi kontrollerer at der ikke allerede er en initialiseret instans af firebase
-  // Så undgår vi fejlen Firebase App named '[DEFAULT]' already exists (app/duplicate-app).
-
+// initialisere databasen efter den er konfigureret til brugen på firebase og projektet
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
   }
 
+  // navigation med komponenterne
   const StackNavigation = () => {
     return(
         <Stack.Navigator>
@@ -45,6 +46,7 @@ export default function App() {
     )
   }
 
+  // funktionalitet
   return (
       <NavigationContainer>
         <Tab.Navigator>

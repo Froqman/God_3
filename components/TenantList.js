@@ -25,7 +25,7 @@ const TenantList = ({navigation}) => {
     }
 // handle
     const handleSelectTenant = id => {
-        /*Her søger vi direkte i vores array af biler og finder bil objektet som matcher idet vi har tilsendt*/
+        /* søger  direkte vores arrayet af brugere og finder user objektet som matcher*/
         const tenant = Object.entries(tenants).find( tenant => tenant[0] === id /*id*/)
         navigation.navigate('Tenant Details', { tenant });
     };
@@ -37,7 +37,7 @@ const TenantList = ({navigation}) => {
     return (
         <FlatList
             data={tenantArray}
-            // Vi bruger tenantKeys til at finde ID på den aktuelle bil og returnerer dette som key, og giver det med som ID til TenantListItem
+            // Vi bruger tenantKeys så ID'et på den brugeren specifikt  og returnerer dette som key der bliver til ID på TenantListItem
             keyExtractor={(item, index) => tenantKeys[index]}
             renderItem={({ item, index }) => {
                 return(

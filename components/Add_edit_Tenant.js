@@ -18,7 +18,8 @@ const Add_edit_Tenant = ({navigation,route}) => {
     const initialState = {
         lastName: '',
         address: '',
-        union: ''
+        union: '',
+        userName: '',
     }
 // start på ny bruger
     const [newTenant,setNewTenant] = useState(initialState);
@@ -43,7 +44,7 @@ const Add_edit_Tenant = ({navigation,route}) => {
 // gem ny bruger
     const handleSave = () => {
 
-        const { lastName, address, union } = newTenant;
+        const { lastName, address, union, userName } = newTenant;
 
         // requirements for ny bruger tegn.
         if(lastName.length === 0 || address.length === 0 || union.length === 0  ){
@@ -57,7 +58,7 @@ const Add_edit_Tenant = ({navigation,route}) => {
                     .database()
                     .ref(`/Tenants/${id}`)
                     // update, så kun de felter der redigeres opdateres i databasen.
-                    .update({ lastName, address, union });
+                    .update({ lastName, address, union, userName });
                 // Når tenant er opdateret = back 2 start.
                 Alert.alert("Din profil er opdateret, vend tilbage til start");
                 const tenant = [id,newTenant]
@@ -72,7 +73,7 @@ const Add_edit_Tenant = ({navigation,route}) => {
                 firebase
                     .database()
                     .ref('/Tenants/')
-                    .push({ lastName, address, union });
+                    .push({ lastName, address, union, userName });
                 Alert.alert(`Saved`);
                 setNewTenant(initialState)
             } catch (error) {
