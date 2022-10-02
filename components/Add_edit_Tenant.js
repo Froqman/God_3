@@ -19,7 +19,7 @@ const Add_edit_Tenant = ({navigation,route}) => {
         lastName: '',
         address: '',
         union: '',
-        userName: '',
+        userName: ''
     }
 // start på ny bruger
     const [newTenant,setNewTenant] = useState(initialState);

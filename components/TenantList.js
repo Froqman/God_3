@@ -43,7 +43,7 @@ const TenantList = ({navigation}) => {
                 return(
                     <TouchableOpacity style={styles.container} onPress={() => handleSelectTenant(tenantKeys[index])}>
                         <Text>
-                            {item.brand} {item.model}
+                            {item.lastName} {item.address}
                         </Text>
                     </TouchableOpacity>
                 )
