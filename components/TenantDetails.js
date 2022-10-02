@@ -83,10 +83,10 @@ export default TenantDetails;
 const styles = StyleSheet.create({
     container: { flex: 1, justifyContent: 'flex-start' },
     row: {
-        margin: 5,
-        padding: 5,
+        margin: 6,
+        padding: 6,
         flexDirection: 'row',
     },
-    label: { width: 100, fontWeight: 'bold' },
-    value: { flex: 1 },
+    label: { width: 111, fontWeight: 'bold' },
+    value: { flex: 2 },
 });

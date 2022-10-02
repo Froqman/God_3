@@ -110,25 +110,24 @@ const Add_edit_Tenant = ({navigation,route}) => {
 // eksportere ud af filen
 export default Add_edit_Tenant;
 
-
 // css yo
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flex: 2,
         justifyContent: 'center'
     },
     row: {
         flexDirection: 'row',
-        height: 30,
-        margin: 10,
+        height: 33,
+        margin: 11,
     },
     label: {
         fontWeight: 'bold',
-        width: 100
+        width: 111
     },
     input: {
-        borderWidth: 1,
-        padding:5,
-        flex: 1
+        borderWidth: 2,
+        padding:6,
+        flex: 2
     },
 });

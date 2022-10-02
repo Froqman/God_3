@@ -59,12 +59,12 @@ export default TenantList;
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        borderWidth: 1,
-        borderRadius:10,
-        margin: 5,
-        padding: 5,
-        height: 50,
+        flex: 2,
+        borderWidth: 2,
+        borderRadius:11,
+        margin: 6,
+        padding: 6,
+        height: 53,
         justifyContent:'center'
     },
     label: { fontWeight: 'bold' },
