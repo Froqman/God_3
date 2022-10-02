@@ -3,12 +3,13 @@ import {View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native';
 import firebase from 'firebase/compat';
 import {useEffect, useState} from "react";
 
+// navigation til oprettede brugere
 const TenantList = ({navigation}) => {
 
     const [tenants,setTenants] = useState()
 
     useEffect(() => {
-        if(!tenantsenants) {
+        if(!tenants) {
             firebase
                 .database()
                 .ref('/Tenants')
@@ -18,25 +19,25 @@ const TenantList = ({navigation}) => {
         }
     },[]);
 
-    // Vi viser ingenting hvis der ikke er data
+    // er brugeren ikke oprettet hvis nada
     if (!tenants) {
         return <Text>Loading...</Text>;
     }
-
+// handle
     const handleSelectTenant = id => {
         /*Her søger vi direkte i vores array af biler og finder bil objektet som matcher idet vi har tilsendt*/
         const tenant = Object.entries(tenants).find( tenant => tenant[0] === id /*id*/)
-        navigation.navigate('Tenant Details', { car });
+        navigation.navigate('Tenant Details', { tenant });
     };
 
-    // Flatlist forventer et array. Derfor tager vi alle values fra vores tenant objekt, og bruger som array til listen
+    // Flatlist vil have et  array. lLaves til et array [],så flatlist kan vises os listen.
     const tenantArray = Object.values(tenants);
     const tenantKeys = Object.keys(tenants);
 
     return (
         <FlatList
             data={tenantArray}
-            // Vi bruger tenantKeys til at finde ID på den aktuelle bil og returnerer dette som key, og giver det med som ID til CarListItem
+            // Vi bruger tenantKeys til at finde ID på den aktuelle bil og returnerer dette som key, og giver det med som ID til TenantListItem
             keyExtractor={(item, index) => tenantKeys[index]}
             renderItem={({ item, index }) => {
                 return(
@@ -50,9 +51,11 @@ const TenantList = ({navigation}) => {
         />
     );
 }
-
+//eksportere til andre filer/mapper
 export default TenantList;
 
+
+// styling
 
 const styles = StyleSheet.create({
     container: {

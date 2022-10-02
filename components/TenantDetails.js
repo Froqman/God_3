@@ -7,44 +7,44 @@ const TenantDetails = ({route,navigation}) => {
     const [tenant,setTenant] = useState({});
 
     useEffect(() => {
-        /*Henter tenant values og sætter dem*/
-        settenant(route.params.tenant[1]);
+        /*Henter forbruger værdier og indsætter*/
+        setTenant(route.params.tenant[1]);
 
-        /*Når vi forlader screen, tøm object*/
+        /*clean screen efter brug*/
         return () => {
             setTenant({})
         }
     });
 
-    const handleEdit = () => {
-        // Vi navigerer videre til EditTenant skærmen og sender bilen videre med
+    const makeEdit = () => {
+        //Navigerer til EditTenant skærmen og sender tenant videre
         const tenant = route.params.tenant
         navigation.navigate('Edit Tenant', { tenant });
     };
 
-    // Vi spørger brugeren om han er sikker
-    const confirmDelete = () => {
-        /*Er det mobile?*/
+    // Klassisk er du sikker på, at du vil gennemføre handlingen?
+    const verifyDelete = () => {
+        /*platform iphone eller noget android halløj?*/
         if(Platform.OS ==='ios' || Platform.OS ==='android'){
-            Alert.alert('Are you sure?', 'Do you want to delete the tenant?', [
+            Alert.alert('sure?', 'Delete the tenant?', [
                 { text: 'Cancel', style: 'cancel' },
-                // Vi bruger this.handleDelete som eventHandler til onPress
+                // this.handleDelete = eventHandler til onPress når button trykkes
                 { text: 'Delete', style: 'destructive', onPress: () => handleDelete() },
             ]);
         }
     };
 
-    // Vi sletter den aktuelle bil
+    // Sletter Tenant
     const  handleDelete = () => {
         const id = route.params.tenant[0];
         try {
             firebase
                 .database()
-                // Vi sætter bilens ID ind i stien
+                // Vi sætter  ID ind i referencen
                 .ref(`/Tenants/${id}`)
-                // Og fjerner data fra den sti
+                // Og fjerner data derfra
                 .remove();
-            // Og går tilbage når det er udført
+            // goBack når handlingen er udført
             navigation.goBack();
         } catch (error) {
             Alert.alert(error.message);
@@ -56,11 +56,11 @@ const TenantDetails = ({route,navigation}) => {
         return <Text>No data</Text>;
     }
 
-    //all content
+    //Buttons for endpoints delete og update
     return (
         <View style={styles.container}>
-            <Button title="Edit" onPress={ () => handleEdit()} />
-            <Button title="Delete" onPress={() => confirmDelete()} />
+            <Button title="Edit" onPress={ () => makeEdit()} />
+            <Button title="Delete" onPress={() => verifyDelete()} />
             {
                 Object.entries(tenant).map((item,index)=>{
                     return(
@@ -79,6 +79,7 @@ const TenantDetails = ({route,navigation}) => {
 
 export default TenantDetails;
 
+// css styling yo
 const styles = StyleSheet.create({
     container: { flex: 1, justifyContent: 'flex-start' },
     row: {

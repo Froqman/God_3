@@ -38,9 +38,9 @@ export default function App() {
   const StackNavigation = () => {
     return(
         <Stack.Navigator>
-          <Stack.Screen name={'Car List'} component={CarList}/>
-          <Stack.Screen name={'Car Details'} component={CarDetails}/>
-          <Stack.Screen name={'Edit Car'} component={Add_edit_Car}/>
+          <Stack.Screen name={'Tenant List'} component={TenantList}/>
+          <Stack.Screen name={'Tenant Details'} component={TenantDetails}/>
+          <Stack.Screen name={'Edit Tenant'} component={Add_edit_Tenant}/>
         </Stack.Navigator>
     )
   }
@@ -49,7 +49,7 @@ export default function App() {
       <NavigationContainer>
         <Tab.Navigator>
           <Tab.Screen name={'Home'} component={StackNavigation} options={{tabBarIcon: () => ( <Ionicons name="home" size={20} />),headerShown:null}}/>
-          <Tab.Screen name={'Add'} component={Add_edit_Car} options={{tabBarIcon: () => ( <Ionicons name="add" size={20} />)}}/>
+          <Tab.Screen name={'Add'} component={Add_edit_Tenant} options={{tabBarIcon: () => ( <Ionicons name="add" size={20} />)}}/>
         </Tab.Navigator>
       </NavigationContainer>
   );

@@ -12,18 +12,18 @@ import {
 import firebase from 'firebase/compat';
 import {useEffect, useState} from "react";
 
+// konstant for skemaet/klasse variationen til ny bruger
 const Add_edit_Tenant = ({navigation,route}) => {
 
     const initialState = {
-        brand: '',
-        model: '',
-        year: '',
-        licensePlate: ''
+        lastName: '',
+        address: '',
+        union: ''
     }
-
+// start på ny bruger
     const [newTenant,setNewTenant] = useState(initialState);
 
-    /*Returnere true, hvis vi er på edit tenant*/
+    /*true når tenant skal redigeres*/
     const isEditTenant = route.name === "Edit tenant";
 
     useEffect(() => {
@@ -40,25 +40,26 @@ const Add_edit_Tenant = ({navigation,route}) => {
     const changeTextInput = (name,event) => {
         setNewTenant({...newTenant, [name]: event});
     }
-
+// gem ny bruger
     const handleSave = () => {
 
-        const { brand, model, year, licensePlate } = newTenant;
+        const { lastName, address, union } = newTenant;
 
-        if(brand.length === 0 || model.length === 0 || year.length === 0 || licensePlate.length === 0 ){
-            return Alert.alert('Et af felterne er tomme!');
+        // requirements for ny bruger tegn.
+        if(lastName.length === 0 || address.length === 0 || union.length === 0  ){
+            return Alert.alert('Empty field!');
         }
-
+// gemmes i firebase database.
         if(isEditTenant){
             const id = route.params.tenant[0];
             try {
                 firebase
                     .database()
                     .ref(`/Tenants/${id}`)
-                    // Vi bruger update, så kun de felter vi angiver, bliver ændret
-                    .update({ brand, model, year, licensePlate });
-                // Når bilen er ændret, går vi tilbage.
-                Alert.alert("Din info er nu opdateret");
+                    // update, så kun de felter der redigeres opdateres i databasen.
+                    .update({ lastName, address, union });
+                // Når tenant er opdateret = back 2 start.
+                Alert.alert("Din profil er opdateret, vend tilbage til start");
                 const tenant = [id,newTenant]
                 navigation.navigate("Tenant Details",{tenant});
             } catch (error) {
@@ -66,12 +67,12 @@ const Add_edit_Tenant = ({navigation,route}) => {
             }
 
         }else{
-
+        // requesten fra endpoint til databasen.
             try {
                 firebase
                     .database()
                     .ref('/Tenants/')
-                    .push({ brand, model, year, licensePlate });
+                    .push({ lastName, address, union });
                 Alert.alert(`Saved`);
                 setNewTenant(initialState)
             } catch (error) {
@@ -80,7 +81,7 @@ const Add_edit_Tenant = ({navigation,route}) => {
         }
 
     };
-
+// button for tenant der skal addes eller redigeres med homescreen
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView>
@@ -98,15 +99,18 @@ const Add_edit_Tenant = ({navigation,route}) => {
                         )
                     })
                 }
-                {/*Hvis vi er inde på edit tenant, vis save changes i stedet for add tenant*/}
-                <Button title={ isEditTenant ? "Save changes" : "Add tenant"} onPress={() => handleSave()} />
+                {/*Ny bruger vises "add tenant" eller changes are saved, hvis der redigeres*/}
+                <Button title={ isEditTenant ? "changes are saved" : "Add tenant"} onPress={() => handleSave()} />
             </ScrollView>
         </SafeAreaView>
     );
 }
 
+// eksportere ud af filen
 export default Add_edit_Tenant;
 
+
+// css yo
 const styles = StyleSheet.create({
     container: {
         flex: 1,
